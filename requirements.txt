@@ -1,0 +1,10 @@
+Django>=5.0,<5.2
+psycopg2-binary
+Pillow
+django-ratelimit
+django-axes
+python-decouple
+dj-database-url
+whitenoise
+gunicorn
+PyYAML

@@ -1,0 +1,128 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ firm.company.name|default:"Architecture Studio" }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ firm.company.biography|default:""|striptags|truncatewords:30 }}{% endblock %}">
+
+    {# Favicon: admin upload first, repo default fallback. #}
+    {% if company_profile.favicon %}
+        <link rel="icon" href="{{ company_profile.favicon.url }}">
+    {% else %}
+        <link rel="icon" type="image/svg+xml" href="{% static 'projects/img/default-favicon.svg' %}">
+    {% endif %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Fraunces', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        bg: '#FAFAF7',
+                        ink: '#1A1A1A',
+                        muted: '#6B6B6B',
+                        accent: '#8B6F47',
+                        border: '#E8E6E1',
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background: #FAFAF7; color: #1A1A1A; }
+        .serif, h1, h2, h3, h4, h5 { font-family: 'Fraunces', serif; font-weight: 400; }
+        .fade-in { opacity: 0; transition: opacity 600ms ease-out; }
+        .fade-in.in { opacity: 1; }
+        .img-zoom { transition: transform 700ms ease-out; }
+        .img-zoom:hover { transform: scale(1.02); }
+    </style>
+</head>
+<body class="bg-bg text-ink antialiased">
+    <header class="border-b border-border">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 py-6 flex items-center justify-between">
+            <a href="{% url 'projects:homepage' %}" class="flex items-center gap-3">
+                {% if company_profile.logo %}
+                    <img src="{{ company_profile.logo.url }}" alt="{{ firm.company.name }}" class="h-10 w-auto">
+                {% else %}
+                    <img src="{% static 'projects/img/default-logo.svg' %}" alt="{{ firm.company.name|default:'Studio' }}" class="h-10 w-auto">
+                {% endif %}
+                <span class="serif text-lg hidden sm:inline">{{ firm.company.name }}</span>
+            </a>
+            <nav class="flex items-center gap-5 md:gap-10 text-sm">
+                <a href="{% url 'projects:homepage' %}" class="hover:text-accent transition-colors">Home</a>
+                <a href="{% url 'projects:list' %}" class="hover:text-accent transition-colors">Projects</a>
+                <a href="{% url 'projects:about' %}" class="hover:text-accent transition-colors">About</a>
+                <a href="{% url 'projects:services' %}" class="hover:text-accent transition-colors">Services</a>
+                <a href="{% url 'projects:contact' %}" class="hover:text-accent transition-colors">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    {% if messages %}
+        <div class="max-w-7xl mx-auto px-6 md:px-12 mt-6 space-y-3">
+            {% for message in messages %}
+                <div class="border border-border bg-white px-6 py-4 text-sm">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="border-t border-border mt-32 py-16">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+                <h3 class="serif text-xl mb-3">{{ firm.company.name }}</h3>
+                {% if firm.company.principal_architect %}
+                    <p class="text-sm text-muted">{{ firm.company.principal_architect }}</p>
+                {% endif %}
+                {% if firm.company.founding_year %}
+                    <p class="text-sm text-muted">Practising since {{ firm.company.founding_year }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <h4 class="text-xs uppercase tracking-widest text-muted mb-3">Contact</h4>
+                {% if firm.company.contact.email %}
+                    <p class="text-sm"><a href="mailto:{{ firm.company.contact.email }}" class="hover:text-accent transition-colors">{{ firm.company.contact.email }}</a></p>
+                {% endif %}
+                {% if firm.company.contact.phone %}
+                    <p class="text-sm">{{ firm.company.contact.phone }}</p>
+                {% endif %}
+                {% if firm.company.contact.address %}
+                    <p class="text-sm text-muted mt-2">{{ firm.company.contact.address|linebreaksbr }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <h4 class="text-xs uppercase tracking-widest text-muted mb-3">Sitemap</h4>
+                <nav class="grid grid-cols-2 gap-y-2 text-sm">
+                    <a href="{% url 'projects:homepage' %}" class="hover:text-accent transition-colors">Home</a>
+                    <a href="{% url 'projects:list' %}" class="hover:text-accent transition-colors">Projects</a>
+                    <a href="{% url 'projects:about' %}" class="hover:text-accent transition-colors">About</a>
+                    <a href="{% url 'projects:services' %}" class="hover:text-accent transition-colors">Services</a>
+                    <a href="{% url 'projects:contact' %}" class="hover:text-accent transition-colors">Contact</a>
+                </nav>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 md:px-12 mt-12 text-xs text-muted">
+            &copy; {% now "Y" %} {{ firm.company.name }}. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        const _io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => _io.observe(el));
+    </script>
+</body>
+</html>

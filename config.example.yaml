@@ -1,0 +1,330 @@
+# config.example.yaml
+#
+# Sample firm configuration shipped with the template. Fork the repo, copy this
+# to config.yaml, edit, and run `python manage.py setup_firm --config config.yaml`.
+# Static configuration only — categories, project fields, and projects defined here
+# are synced to the database; everything else (company, services, contact) is read
+# at process start and exposed to templates as `{{ firm.* }}`.
+
+company:
+  name: "Studio Modern Architecture"
+  principal_architect: "Ar. Anjali Mehra"
+  founding_year: 2010
+  total_projects_completed: 250
+  biography: |
+    Studio Modern Architecture is a Mumbai-based practice working at the
+    intersection of contemporary form and the climate, materials, and craft
+    traditions of the Indian subcontinent. Our projects span private residences,
+    commercial offices, public institutions, and master-planned communities —
+    bound by a commitment to passive design, considered detail, and architecture
+    that ages well.
+
+    Founded in 2010, the studio has delivered over 250 projects across India,
+    the Gulf, and Southeast Asia. Each project begins with the site, the climate,
+    and the people who will inhabit it; the architecture follows.
+  mission_statement: |
+    Architecture that responds to climate, honours craft, and ages quietly.
+  credentials:
+    - "Council of Architecture, India (CoA)"
+    - "Indian Institute of Architects, member"
+    - "MIDC empanelled architect"
+    - "LEED Accredited Professional"
+    - "IGBC Accredited Professional"
+  contact:
+    email: "hello@studio-modern.example"
+    phone: "+91 22 1234 5678"
+    address: |
+      14B Nepean Sea Road
+      Mumbai 400006
+      Maharashtra, India
+
+categories:
+  - { name: "Residential",   slug: "residential",   order: 1 }
+  - { name: "Commercial",    slug: "commercial",    order: 2 }
+  - { name: "Institutional", slug: "institutional", order: 3 }
+  - { name: "Industrial",    slug: "industrial",    order: 4 }
+  - { name: "Urban Design",  slug: "urban-design",  order: 5 }
+  - { name: "Interiors",     slug: "interiors",     order: 6 }
+
+services:
+  - name: "Architectural Design"
+    description: "From concept design through construction documentation, we lead projects across scales — from single-family residences to master-planned developments."
+    order: 1
+  - name: "Interior Design"
+    description: "Spatial planning, joinery design, and material selection for residential, hospitality, and workplace interiors."
+    order: 2
+  - name: "Master Planning"
+    description: "Site analysis, programming, and urban-scale design for institutional campuses, mixed-use developments, and townships."
+    order: 3
+  - name: "Sustainability Consulting"
+    description: "Passive-design strategy, daylight modelling, and LEED / IGBC documentation support for new construction and adaptive reuse."
+    order: 4
+
+project_fields:
+  - { name: "Client Type",            field_type: "text", order: 1 }
+  - { name: "Awards",                 field_type: "text", order: 2 }
+  - { name: "Sustainability Rating",  field_type: "text", order: 3 }
+  - { name: "Photography",            field_type: "text", order: 4 }
+
+projects:
+  # --- Residential ---
+  - title: "Courtyard House"
+    slug: "courtyard-house"
+    category: "residential"
+    location: "Alibaug, Maharashtra"
+    year_completed: 2023
+    building_type: "Single-family residence"
+    area_sqft: 4200
+    status: "built"
+    description: |
+      A three-bedroom residence organised around a central courtyard, designed
+      to bring the monsoon and the morning light into the heart of the plan.
+      Local laterite stone walls anchor the form to the site; a deep IPS-finished
+      veranda mediates between the interior and the garden.
+    featured_image: "courtyard-house/hero.jpg"
+    is_featured: true
+    order: 1
+    gallery:
+      - { image: "courtyard-house/01.jpg", caption: "Approach view from the lane" }
+      - { image: "courtyard-house/02.jpg", caption: "Courtyard at dawn" }
+      - { image: "courtyard-house/03.jpg", caption: "Living room and veranda" }
+    field_values:
+      - { field: "Client Type",           value: "Private" }
+      - { field: "Awards",                value: "ArchDesign Award 2024 (Residential)" }
+      - { field: "Sustainability Rating", value: "IGBC Green Homes Gold" }
+      - { field: "Photography",           value: "Niveditaa Gupta" }
+
+  - title: "Hillside Retreat"
+    slug: "hillside-retreat"
+    category: "residential"
+    location: "Lonavala, Maharashtra"
+    year_completed: 2022
+    building_type: "Weekend home"
+    area_sqft: 3100
+    status: "built"
+    description: |
+      A weekend home cantilevered over a forested slope. The plan is a single
+      linear bar with a continuous deck on the valley side, oriented to capture
+      sunset views toward the western ghats. Charred-cedar cladding ages with
+      the surrounding forest.
+    featured_image: "hillside-retreat/hero.jpg"
+    is_featured: true
+    order: 2
+    gallery:
+      - { image: "hillside-retreat/01.jpg", caption: "Deck and valley" }
+      - { image: "hillside-retreat/02.jpg", caption: "Living pavilion" }
+    field_values:
+      - { field: "Client Type", value: "Private" }
+      - { field: "Photography", value: "Suryan Dang" }
+
+  - title: "Linear House"
+    slug: "linear-house"
+    category: "residential"
+    location: "Goa"
+    year_completed: 2021
+    building_type: "Single-family residence"
+    area_sqft: 3600
+    status: "built"
+    description: |
+      A long, low residence on a narrow coastal plot in north Goa. The house
+      orients itself away from the road and toward a lap pool that runs the
+      length of the plan, with each bedroom opening to the water through full-
+      height sliding screens.
+    featured_image: "linear-house/hero.jpg"
+    is_featured: false
+    order: 3
+    gallery:
+      - { image: "linear-house/01.jpg", caption: "Pool elevation" }
+    field_values:
+      - { field: "Client Type", value: "Private" }
+      - { field: "Awards",      value: "World Architecture News Award 2022 (Shortlist)" }
+
+  - title: "Bandra Apartment"
+    slug: "bandra-apartment"
+    category: "residential"
+    location: "Mumbai, Maharashtra"
+    year_completed: 2024
+    building_type: "Apartment renovation"
+    area_sqft: 2200
+    status: "built"
+    description: |
+      Renovation of a 1970s sea-facing apartment. We removed the cellular
+      bedroom layout in favour of a single open volume tied together by a
+      Burma-teak floor and a continuous picture window facing the Arabian Sea.
+    featured_image: "bandra-apartment/hero.jpg"
+    is_featured: false
+    order: 4
+    field_values:
+      - { field: "Client Type", value: "Private" }
+
+  # --- Commercial ---
+  - title: "Co-working Pavilion"
+    slug: "co-working-pavilion"
+    category: "commercial"
+    location: "Pune, Maharashtra"
+    year_completed: 2023
+    building_type: "Workplace"
+    area_sqft: 18500
+    status: "built"
+    description: |
+      A naturally-ventilated co-working pavilion arranged around a planted
+      atrium. Operable jaali screens on the east and west facades cut afternoon
+      glare while preserving cross-ventilation through the workspaces.
+    featured_image: "co-working-pavilion/hero.jpg"
+    is_featured: true
+    order: 5
+    gallery:
+      - { image: "co-working-pavilion/01.jpg", caption: "Atrium" }
+      - { image: "co-working-pavilion/02.jpg", caption: "Open workspace" }
+    field_values:
+      - { field: "Client Type",           value: "Corporate" }
+      - { field: "Sustainability Rating", value: "LEED Platinum" }
+
+  - title: "Riverside Office"
+    slug: "riverside-office"
+    category: "commercial"
+    location: "Ahmedabad, Gujarat"
+    year_completed: 2020
+    building_type: "Headquarters office"
+    area_sqft: 42000
+    status: "built"
+    description: |
+      A six-storey corporate headquarters facing the Sabarmati. The facade is
+      a deep brick screen tuned to local solar geometry; behind it, floor plates
+      step back at the upper levels to create shaded terraces.
+    featured_image: "riverside-office/hero.jpg"
+    is_featured: false
+    order: 6
+    field_values:
+      - { field: "Client Type",           value: "Corporate" }
+      - { field: "Sustainability Rating", value: "LEED Gold" }
+      - { field: "Awards",                value: "ABA — Brick in Architecture, Honourable Mention" }
+
+  - title: "Old Town Hotel"
+    slug: "old-town-hotel"
+    category: "commercial"
+    location: "Udaipur, Rajasthan"
+    year_completed: 2024
+    building_type: "Adaptive reuse — hotel"
+    area_sqft: 26000
+    status: "built"
+    description: |
+      Adaptive reuse of a 19th-century haveli in the old city as a 22-key
+      boutique hotel. Existing lime-plaster walls and stone floors were
+      conserved; new insertions are in steel and glass, kept deliberately
+      lightweight to preserve the legibility of the original fabric.
+    featured_image: "old-town-hotel/hero.jpg"
+    is_featured: true
+    order: 7
+    gallery:
+      - { image: "old-town-hotel/01.jpg", caption: "Restored courtyard" }
+      - { image: "old-town-hotel/02.jpg", caption: "Suite" }
+    field_values:
+      - { field: "Client Type",           value: "Hospitality" }
+      - { field: "Awards",                value: "INTACH Heritage Award 2024" }
+      - { field: "Sustainability Rating", value: "GRIHA 4-star" }
+
+  # --- Institutional ---
+  - title: "Maker Lab"
+    slug: "maker-lab"
+    category: "institutional"
+    location: "Bangalore, Karnataka"
+    year_completed: 2023
+    building_type: "University workshop"
+    area_sqft: 12500
+    status: "built"
+    description: |
+      A flexible workshop and prototyping facility for an engineering school.
+      Heavy-duty fabrication bays on the ground floor; lighter electronics and
+      digital labs above, organised around a triple-height central commons.
+    featured_image: "maker-lab/hero.jpg"
+    is_featured: false
+    order: 8
+    field_values:
+      - { field: "Client Type", value: "Educational institution" }
+
+  - title: "Forest School"
+    slug: "forest-school"
+    category: "institutional"
+    location: "Coorg, Karnataka"
+    year_completed: 2022
+    building_type: "Primary school"
+    area_sqft: 9800
+    status: "built"
+    description: |
+      A primary school of single-storey timber pavilions threaded through an
+      existing coffee plantation. No tree was felled; the buildings step
+      between the canopy on stilts, with rainwater channelled along the
+      plantation's existing contours.
+    featured_image: "forest-school/hero.jpg"
+    is_featured: true
+    order: 9
+    gallery:
+      - { image: "forest-school/01.jpg", caption: "Classroom pavilion" }
+    field_values:
+      - { field: "Client Type",           value: "Non-profit" }
+      - { field: "Awards",                value: "Architecture+ Award 2023 (Education)" }
+      - { field: "Sustainability Rating", value: "Net-zero operational energy" }
+
+  # --- Urban Design ---
+  - title: "Mill Quarter"
+    slug: "mill-quarter"
+    category: "urban-design"
+    location: "Mumbai, Maharashtra"
+    year_completed: 2024
+    building_type: "Mixed-use master plan"
+    area_sqft: 480000
+    status: "under_construction"
+    description: |
+      Master plan for a 12-acre former textile mill site in central Mumbai.
+      A network of pedestrian streets stitches preserved chimney stacks and
+      weaving sheds into a new mixed-use neighbourhood of housing, workspace,
+      and public amenities.
+    featured_image: "mill-quarter/hero.jpg"
+    is_featured: false
+    order: 10
+    field_values:
+      - { field: "Client Type", value: "Joint development authority" }
+
+  - title: "Riverfront Promenade"
+    slug: "riverfront-promenade"
+    category: "urban-design"
+    location: "Surat, Gujarat"
+    year_completed: 2025
+    building_type: "Public realm"
+    area_sqft: 320000
+    status: "concept"
+    description: |
+      A 2.4-kilometre riverfront promenade reclaiming the city's edge along
+      the Tapi. Stepped embankments, flood-tolerant planting, and a continuous
+      cycle route knit historically separated neighbourhoods back to the river.
+    featured_image: "riverfront-promenade/hero.jpg"
+    is_featured: false
+    order: 11
+    field_values:
+      - { field: "Client Type", value: "Municipal corporation" }
+
+  # --- Interiors ---
+  - title: "Library Restoration"
+    slug: "library-restoration"
+    category: "interiors"
+    location: "Mumbai, Maharashtra"
+    year_completed: 2021
+    building_type: "Adaptive reuse — public library"
+    area_sqft: 14200
+    status: "built"
+    description: |
+      Restoration of the reading rooms of a Grade IIA-listed colonial library.
+      Original Burma-teak shelving and cast-iron galleries were conserved in
+      situ; new lighting, climate, and accessibility systems were threaded
+      through the existing structure with minimal visual impact.
+    featured_image: "library-restoration/hero.jpg"
+    is_featured: true
+    order: 12
+    gallery:
+      - { image: "library-restoration/01.jpg", caption: "Main reading room" }
+      - { image: "library-restoration/02.jpg", caption: "Restored gallery" }
+    field_values:
+      - { field: "Client Type",           value: "Trust" }
+      - { field: "Awards",                value: "UNESCO Asia-Pacific Award of Distinction 2022" }
+      - { field: "Photography",           value: "Edmund Sumner" }

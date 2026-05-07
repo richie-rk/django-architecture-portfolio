@@ -1,0 +1,47 @@
+{% extends 'projects/base.html' %}
+
+{% block title %}Contact — {{ firm.company.name }}{% endblock %}
+
+{% block content %}
+<section class="max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-12 md:pt-32 md:pb-16">
+    <h1 class="serif text-4xl md:text-6xl">Get in touch</h1>
+    <p class="text-muted mt-6 max-w-xl">Tell us about your project. We respond to enquiries within two working days.</p>
+</section>
+
+<section class="max-w-7xl mx-auto px-6 md:px-12 pb-32 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
+    <form method="post" class="md:col-span-2 space-y-6">
+        {% csrf_token %}
+        {% for field in form %}
+        <div>
+            <label for="{{ field.id_for_label }}" class="text-xs uppercase tracking-widest text-muted block mb-2">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <p class="text-xs text-red-700 mt-2">{{ field.errors|join:", " }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="px-8 py-3 bg-ink text-bg hover:bg-accent transition-colors text-sm uppercase tracking-widest">Send enquiry</button>
+    </form>
+
+    <aside class="space-y-8 text-sm">
+        {% if firm.company.contact.email %}
+        <div>
+            <h4 class="text-xs uppercase tracking-widest text-muted mb-3">Email</h4>
+            <p><a href="mailto:{{ firm.company.contact.email }}" class="hover:text-accent transition-colors">{{ firm.company.contact.email }}</a></p>
+        </div>
+        {% endif %}
+        {% if firm.company.contact.phone %}
+        <div>
+            <h4 class="text-xs uppercase tracking-widest text-muted mb-3">Phone</h4>
+            <p>{{ firm.company.contact.phone }}</p>
+        </div>
+        {% endif %}
+        {% if firm.company.contact.address %}
+        <div>
+            <h4 class="text-xs uppercase tracking-widest text-muted mb-3">Studio</h4>
+            <p class="text-muted">{{ firm.company.contact.address|linebreaksbr }}</p>
+        </div>
+        {% endif %}
+    </aside>
+</section>
+{% endblock %}

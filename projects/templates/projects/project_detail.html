@@ -1,0 +1,77 @@
+{% extends 'projects/base.html' %}
+
+{% block title %}{{ project.title }} — {{ firm.company.name }}{% endblock %}
+{% block description %}{{ project.description|striptags|truncatewords:30 }}{% endblock %}
+
+{% block content %}
+<article>
+    {% if project.featured_image %}
+    <div class="relative w-full aspect-[16/9] overflow-hidden bg-border">
+        <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover">
+    </div>
+    {% endif %}
+
+    <header class="max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-12">
+        <p class="text-xs text-muted uppercase tracking-widest">{{ project.category.name }}</p>
+        <h1 class="serif text-4xl md:text-6xl mt-4 max-w-4xl">{{ project.title }}</h1>
+        <p class="text-muted mt-6 max-w-2xl">{{ project.location }} · {{ project.year_completed }}</p>
+    </header>
+
+    <section class="max-w-7xl mx-auto px-6 md:px-12 pb-16 grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="md:col-span-2 space-y-6 leading-relaxed">
+            {{ project.description|linebreaks }}
+        </div>
+        <aside>
+            <dl class="space-y-5 text-sm">
+                <div>
+                    <dt class="text-xs text-muted uppercase tracking-widest">Type</dt>
+                    <dd class="mt-1">{{ project.building_type }}</dd>
+                </div>
+                {% if project.area_sqft %}
+                <div>
+                    <dt class="text-xs text-muted uppercase tracking-widest">Area</dt>
+                    <dd class="mt-1">{{ project.area_sqft }} sq ft</dd>
+                </div>
+                {% endif %}
+                <div>
+                    <dt class="text-xs text-muted uppercase tracking-widest">Status</dt>
+                    <dd class="mt-1">{{ project.get_status_display }}</dd>
+                </div>
+                {% for fv in project.field_values.all %}
+                <div>
+                    <dt class="text-xs text-muted uppercase tracking-widest">{{ fv.field.name }}</dt>
+                    <dd class="mt-1">
+                        {% if fv.field.field_type == 'url' %}
+                            <a href="{{ fv.value }}" class="hover:text-accent transition-colors">{{ fv.value }}</a>
+                        {% else %}
+                            {{ fv.value }}
+                        {% endif %}
+                    </dd>
+                </div>
+                {% endfor %}
+            </dl>
+        </aside>
+    </section>
+
+    {% if project.images.all %}
+    <section class="max-w-7xl mx-auto px-6 md:px-12 pb-32 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for img in project.images.all %}
+        <figure class="fade-in">
+            <div class="aspect-[4/5] overflow-hidden bg-border">
+                <img src="{{ img.image.url }}" alt="{{ img.caption|default:project.title }}" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            {% if img.caption %}
+            <figcaption class="text-xs text-muted mt-2">{{ img.caption }}</figcaption>
+            {% endif %}
+        </figure>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    <section class="border-t border-border py-16">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <a href="{% url 'projects:list' %}" class="text-sm text-muted hover:text-accent transition-colors">← All projects</a>
+        </div>
+    </section>
+</article>
+{% endblock %}

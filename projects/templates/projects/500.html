@@ -1,0 +1,10 @@
+{% extends 'projects/base.html' %}
+{% block title %}Server error — {{ firm.company.name }}{% endblock %}
+{% block content %}
+<section class="max-w-7xl mx-auto px-6 md:px-12 py-32 md:py-48 text-center">
+    <p class="serif text-7xl text-accent">500</p>
+    <h1 class="serif text-3xl md:text-4xl mt-6">Something went wrong</h1>
+    <p class="text-muted mt-4">An unexpected error occurred. Please try again in a moment.</p>
+    <a href="/" class="inline-block mt-12 px-8 py-3 bg-ink text-bg text-sm uppercase tracking-widest hover:bg-accent transition-colors">Back to home</a>
+</section>
+{% endblock %}

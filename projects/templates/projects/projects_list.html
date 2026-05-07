@@ -1,0 +1,40 @@
+{% extends 'projects/base.html' %}
+
+{% block title %}Projects — {{ firm.company.name }}{% endblock %}
+
+{% block content %}
+<section class="max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-12 md:pt-32 md:pb-16">
+    <h1 class="serif text-4xl md:text-6xl">Projects</h1>
+    {% if selected_category %}
+        <p class="text-sm text-muted mt-4">Filtered by {{ selected_category.name }}</p>
+    {% endif %}
+
+    <nav class="mt-12 flex flex-wrap gap-x-6 gap-y-3 text-sm">
+        <a href="{% url 'projects:list' %}" class="{% if not selected_category %}text-ink border-b border-ink{% else %}text-muted hover:text-accent{% endif %} pb-1 transition-colors">All</a>
+        {% for category in categories %}
+            <a href="?category={{ category.slug }}" class="{% if selected_category.slug == category.slug %}text-ink border-b border-ink{% else %}text-muted hover:text-accent{% endif %} pb-1 transition-colors">{{ category.name }}</a>
+        {% endfor %}
+    </nav>
+</section>
+
+<section class="max-w-7xl mx-auto px-6 md:px-12 pb-32">
+    {% if projects %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-16">
+        {% for project in projects %}
+            <a href="{% url 'projects:detail' project.slug %}" class="group fade-in">
+                <div class="aspect-[4/5] overflow-hidden bg-border mb-4">
+                    {% if project.featured_image %}
+                        <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover img-zoom" loading="lazy">
+                    {% endif %}
+                </div>
+                <h3 class="serif text-xl group-hover:text-accent transition-colors">{{ project.title }}</h3>
+                <p class="text-xs text-muted uppercase tracking-widest mt-1">{{ project.category.name }} · {{ project.year_completed }}</p>
+                <p class="text-sm text-muted mt-2">{{ project.location }}</p>
+            </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted">No projects to show yet.</p>
+    {% endif %}
+</section>
+{% endblock %}
